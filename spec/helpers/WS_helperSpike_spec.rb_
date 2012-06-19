@@ -1,0 +1,183 @@
+#encoding: utf-8
+
+require 'spec_helper'
+
+describe WsHelperSpike do
+	describe "parsear XML" do
+		before(:each) do
+			@dummy_class = DummyClass.new
+			@dummy_class.extend(WsHelperSpike)
+		end
+		it "debe tener un método obtenerValoresDeXML"do
+			@dummy_class.should respond_to(:obtenerValoresDeXML)
+		end
+
+		it "debe tener un método obtenerLosValoresPorNokogiri" do
+			@dummy_class.should respond_to(:obtenerLosValoresPorNokogiri)
+		end
+
+
+		it "obtener una estructura de Hash" do
+			@attr = '<user>
+		    <id type="integer">1</id>
+		    <user-name>ryan</user-name>
+		</user>'
+		@responseHash = @dummy_class.retornarHash @attr
+		@responseHash[:user].should == { "id" => 1, "user_name" => "ryan" }
+		end
+
+		it "obtener una estructura de Hash con dos registro" do
+			@attr = '<users>
+		<user>
+		  <id type="integer">1</id>
+		  <user-name>ryan</user-name>
+		</user> 
+		<user>
+		  <id type="integer">2</id>
+		  <user-name>doug</user-name>
+		</user>
+	      </users>'
+	      @responseHash = @dummy_class.retornarHash @attr
+	      @responseHash[:users][:user].last.should == { "id" => 2, "user_name" => "doug" }
+		end
+
+		describe "comparación del XML" do
+			before(:each) do
+				@xml = File.open(File.join("spec/helpers", "soap.txt"), :encoding => "ISO-8859-1").read
+			end
+
+			it "comparar el formato" do
+				@attr = '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <GetReportResponse xmlns="http://tempuri.org/">
+	 <GetReportResult>
+	    <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop">
+	       <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+		  <xs:complexType>
+		     <xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Table">
+			   <xs:complexType>
+			      <xs:sequence>
+				 <xs:element name="FH_INFO" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="HS_INFO" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="PT_INFO" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="MATRICULA" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="SDIST" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="NRO_OMI" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="IDEN" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="PT_ORIG" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="PT_DESTINO" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="TIPO_MOV" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="PT_FINAL" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="EN_VIAJE" msprop:OraDbType="107" type="xs:decimal" minOccurs="0"/>
+				 <xs:element name="NOMBRE" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="UNIDAD" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="KM" msprop:OraDbType="107" type="xs:decimal" minOccurs="0"/>
+				 <xs:element name="CARGA" msprop:OraDbType="104" type="xs:string" minOccurs="0"/>
+				 <xs:element name="OBSERVAC" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="BAND" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="ARQUEO_NETO" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="CALADO_MAX" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="CALADOR" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="SERN" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="TIPO_EVENTO" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="COMENTARIO" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="ID_VIAJE" msprop:OraDbType="107" type="xs:decimal" minOccurs="0"/>
+				 <xs:element name="ID_ETAPA" msprop:OraDbType="107" type="xs:decimal" minOccurs="0"/>
+				 <xs:element name="NRO_ETAPA" msprop:OraDbType="107" type="xs:decimal" minOccurs="0"/>
+				 <xs:element name="ID_EVENTO" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="REMOLCADA_POR" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="ORIGEN" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+				 <xs:element name="DESTINO" msprop:OraDbType="126" type="xs:string" minOccurs="0"/>
+			      </xs:sequence>
+			   </xs:complexType>
+			</xs:element>
+		     </xs:choice>
+		  </xs:complexType>
+	       </xs:element>
+	    </xs:schema>
+	    <diffgr:diffgram xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1">
+	       <NewDataSet xmlns="">
+		  <Table diffgr:id="Table1" msdata:rowOrder="0">
+		     <FH_INFO>03/04/2012</FH_INFO>
+		     <HS_INFO>22:13:55</HS_INFO>
+		     <PT_INFO>CORR</PT_INFO>
+		     <MATRICULA>0</MATRICULA>
+		     <SDIST>ZPPA</SDIST>
+		     <NRO_OMI>8950811</NRO_OMI>
+		     <IDEN>CAVALIER III</IDEN>
+		     <EN_VIAJE>1</EN_VIAJE>
+		     <NOMBRE>Rio Paraguay</NOMBRE>
+		     <UNIDAD>KM</UNIDAD>
+		     <KM>1240</KM>
+		     <BAND>Paraguay</BAND>
+		     <ARQUEO_NETO>N</ARQUEO_NETO>
+		     <CALADO_MAX>N</CALADO_MAX>
+		     <SERN>CORR</SERN>
+		     <TIPO_EVENTO>Inserción de Carga</TIPO_EVENTO>
+		     <ID_VIAJE>23112</ID_VIAJE>
+		     <ID_ETAPA>58416</ID_ETAPA>
+		     <NRO_ETAPA>2</NRO_ETAPA>
+		     <ID_EVENTO>196157</ID_EVENTO>
+		  </Table>
+		  <Table diffgr:id="Table2" msdata:rowOrder="1">
+		     <FH_INFO>03/04/2012</FH_INFO>
+		     <HS_INFO>22:14:36</HS_INFO>
+		     <PT_INFO>CORR</PT_INFO>
+		     <MATRICULA>0</MATRICULA>
+		     <SDIST>ZPPA</SDIST>
+		     <NRO_OMI>8950811</NRO_OMI>
+		     <IDEN>CAVALIER III</IDEN>
+		     <EN_VIAJE>1</EN_VIAJE>
+		     <NOMBRE>Rio Paraguay</NOMBRE>
+		     <UNIDAD>KM</UNIDAD>
+		     <KM>1240</KM>
+		     <BAND>Paraguay</BAND>
+		     <ARQUEO_NETO>N</ARQUEO_NETO>
+		     <CALADO_MAX>N</CALADO_MAX>
+		     <SERN>CORR</SERN>
+		     <TIPO_EVENTO>Inserción de Carga</TIPO_EVENTO>
+		     <ID_VIAJE>23112</ID_VIAJE>
+		     <ID_ETAPA>58416</ID_ETAPA>
+		     <NRO_ETAPA>2</NRO_ETAPA>
+		     <ID_EVENTO>196160</ID_EVENTO>
+		  </Table>
+	       </NewDataSet>
+	    </diffgr:diffgram>
+	 </GetReportResult>
+      </GetReportResponse>
+   </soap:Body>
+</soap:Envelope>'
+@attr.squish.should == @xml.squish
+			end
+
+			it "comparar un Hash con los valores del XML únicamente" do
+				@attr = {"diffgr:id"=>"Table1", "msdata:rowOrder"=>"0", "FH_INFO"=>"03/04/2012", "HS_INFO"=>"22:13:55", "PT_INFO"=>"CORR", "MATRICULA"=>"0", "SDIST"=>"ZPPA", "NRO_OMI"=>"8950811", "IDEN"=>"CAVALIER III", "EN_VIAJE"=>"1", "NOMBRE"=>"Rio Paraguay", "UNIDAD"=>"KM", "KM"=>"1240", "BAND"=>"Paraguay", "ARQUEO_NETO"=>"N", "CALADO_MAX"=>"N", "SERN"=>"CORR", "TIPO_EVENTO"=>"Inserción de Carga", "ID_VIAJE"=>"23112", "ID_ETAPA"=>"58416", "NRO_ETAPA"=>"2", "ID_EVENTO"=>"196157"}, {"diffgr:id"=>"Table2", "msdata:rowOrder"=>"1", "FH_INFO"=>"03/04/2012", "HS_INFO"=>"22:14:36", "PT_INFO"=>"CORR", "MATRICULA"=>"0", "SDIST"=>"ZPPA", "NRO_OMI"=>"8950811", "IDEN"=>"CAVALIER III", "EN_VIAJE"=>"1", "NOMBRE"=>"Rio Paraguay", "UNIDAD"=>"KM", "KM"=>"1240", "BAND"=>"Paraguay", "ARQUEO_NETO"=>"N", "CALADO_MAX"=>"N", "SERN"=>"CORR", "TIPO_EVENTO"=>"Inserción de Carga", "ID_VIAJE"=>"23112", "ID_ETAPA"=>"58416", "NRO_ETAPA"=>"2", "ID_EVENTO"=>"196160"}
+				@responseHash = @dummy_class.retornarHash @xml
+				@responseHash[:Envelope][:Body][:GetReportResponse][:GetReportResult][:diffgram][:NewDataSet][:Table].should == @attr
+			end
+
+			it "comparar los valores del XML en una array" do
+				@attr = [["Table1", "0", "03/04/2012", "22:13:55", "CORR", "0", "ZPPA", "8950811", "CAVALIER III", "1", "Rio Paraguay", "KM", "1240", "Paraguay", "N", "N", "CORR", "Inserción de Carga", "23112", "58416", "2", "196157"], ["Table2", "1", "03/04/2012", "22:14:36", "CORR", "0", "ZPPA", "8950811", "CAVALIER III", "1", "Rio Paraguay", "KM", "1240", "Paraguay", "N", "N", "CORR", "Inserción de Carga", "23112", "58416", "2", "196160"]]
+				@responseHash = @dummy_class.retornarHash @xml
+				@registros = @responseHash[:Envelope][:Body][:GetReportResponse][:GetReportResult][:diffgram][:NewDataSet][:Table]
+				@regArray = []
+				@registros.each do |registro| @regArray << registro.values end
+				@attr.should == @regArray
+			end
+
+
+			it "obtener los valores en una array" do
+				@attr = [["Table1", "0", "03/04/2012", "22:13:55", "CORR", "0", "ZPPA", "8950811", "CAVALIER III", "1", "Rio Paraguay", "KM", "1240", "Paraguay", "N", "N", "CORR", "Inserción de Carga", "23112", "58416", "2", "196157"], ["Table2", "1", "03/04/2012", "22:14:36", "CORR", "0", "ZPPA", "8950811", "CAVALIER III", "1", "Rio Paraguay", "KM", "1240", "Paraguay", "N", "N", "CORR", "Inserción de Carga", "23112", "58416", "2", "196160"]]
+				@valores = @dummy_class.obtenerValoresDeXML @xml
+				@attr.should == @valores
+			end
+
+			it "obtener los valores en una array con Nokogiri" do
+				@attr = [["Table1", "0", "03/04/2012", "22:13:55", "CORR", "0", "ZPPA", "8950811", "CAVALIER III", "1", "Rio Paraguay", "KM", "1240", "Paraguay", "N", "N", "CORR", "Inserción de Carga", "23112", "58416", "2", "196157"], ["Table2", "1", "03/04/2012", "22:14:36", "CORR", "0", "ZPPA", "8950811", "CAVALIER III", "1", "Rio Paraguay", "KM", "1240", "Paraguay", "N", "N", "CORR", "Inserción de Carga", "23112", "58416", "2", "196160"]]
+				@valores = @dummy_class.obtenerLosValoresPorNokogiri @xml
+				@valores.should == @attr
+			end
+		end
+	end
+end

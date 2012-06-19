@@ -1,0 +1,15 @@
+
+
+<%= form_for(:reporte, :url => posiciones_path) do |f| %>
+  <div class="field">
+    <%= f.label :reporte %> <br />
+    <%= f.collection_select(:codigo, @OrigenesDeReporte, :codigo, :etiqueta) %>
+  </div>
+  <div class="field">
+    <%= f.label :fecha %> <br />
+    <%= f.date_select :fecha, :order => [ :day, :month, :year ], :use_month_numbers => true  %>  
+  </div>
+  <div class="actions">
+    <%= f.submit "Obtener reporte" %>
+  </div>
+<% end %>

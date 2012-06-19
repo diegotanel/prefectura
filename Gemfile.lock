@@ -34,6 +34,7 @@ GEM
     annotate (2.4.1.beta1)
     arel (2.2.3)
     builder (3.0.0)
+    chronic (0.6.7)
     coffee-rails (3.1.1)
       coffee-script (>= 2.2.0)
       railties (~> 3.1.0)
@@ -67,7 +68,10 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    metaclass (0.0.1)
     mime-types (1.18)
+    mocha (0.11.4)
+      metaclass (~> 0.0.1)
     multi_json (1.3.6)
     nokogiri (1.5.0-x86-mingw32)
     nori (1.1.0)
@@ -167,12 +171,14 @@ PLATFORMS
 
 DEPENDENCIES
   annotate (~> 2.4.1.beta)
+  chronic
   coffee-rails (~> 3.1.1)
   database_cleaner
   factory_girl_rails (= 1.0)
   faker
   gravatar_image_tag
   jquery-rails
+  mocha
   pg
   rails (= 3.1.1)
   rspec
