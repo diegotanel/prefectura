@@ -14,7 +14,7 @@ describe WsHelper do
     end
 
     it "debe tener un método obtenerListado" do
-      @dummy_class.should respond_to(:obtenerListado)
+      @dummy_class.should respond_to(:obtenerListadoEnArray)
     end
 
     it "debe tener un método formatearTextoComoFecha" do
@@ -26,9 +26,10 @@ describe WsHelper do
         @xml = File.open(File.join("spec/helpers", "soap.txt"), :encoding => "ISO-8859-1").read
       end
 
-      it "obtener los valores en un hash" do
-        @attr = [{"FH_INFO"=>"03/04/2012", "HS_INFO"=>"22:14:36", "PT_INFO"=>"CORR", "MATRICULA"=>"0", "SDIST"=>"ZPPA", "NRO_OMI"=>"8950811", "IDEN"=>"CAVALIER III", "PT_ORIG"=>nil, "PT_DESTINO"=>nil, "TIPO_MOV"=>nil, "PT_FINAL"=>nil, "EN_VIAJE"=>"1", "NOMBRE"=>"Rio Paraguay", "UNIDAD"=>"KM", "KM"=>"1240", "CARGA"=>nil, "OBSERVAC"=>nil, "BAND"=>"Paraguay", "ARQUEO_NETO"=>"N", "CALADO_MAX"=>"N", "CALADOR"=>nil, "SERN"=>"CORR", "TIPO_EVENTO"=>"Inserción de Carga", "COMENTARIO"=>nil, "ID_VIAJE"=>"23112", "ID_ETAPA"=>"58416", "NRO_ETAPA"=>"2", "ID_EVENTO"=>"196160", "REMOLCADA_POR"=>nil, "ORIGEN"=>nil, "DESTINO"=>nil}, {"FH_INFO"=>"03/04/2012", "HS_INFO"=>"22:14:36", "PT_INFO"=>"CORR", "MATRICULA"=>"0", "SDIST"=>"ZPPA", "NRO_OMI"=>"8950811", "IDEN"=>"CAVALIER III", "PT_ORIG"=>nil, "PT_DESTINO"=>nil, "TIPO_MOV"=>nil, "PT_FINAL"=>nil, "EN_VIAJE"=>"1", "NOMBRE"=>"Rio Paraguay", "UNIDAD"=>"KM", "KM"=>"1240", "CARGA"=>nil, "OBSERVAC"=>nil, "BAND"=>"Paraguay", "ARQUEO_NETO"=>"N", "CALADO_MAX"=>"N", "CALADOR"=>nil, "SERN"=>"CORR", "TIPO_EVENTO"=>"Inserción de Carga", "COMENTARIO"=>nil, "ID_VIAJE"=>"23112", "ID_ETAPA"=>"58416", "NRO_ETAPA"=>"2", "ID_EVENTO"=>"196160", "REMOLCADA_POR"=>nil, "ORIGEN"=>nil, "DESTINO"=>nil}]
-        @valores = @dummy_class.obtenerListado @xml
+      it "obtener los datos en forma de array" do
+        @attr = [["0", "03/04/2012", "22:13:55", "CORR", "0", "ZPPA", "8950811", "CAVALIER III", nil, nil, nil, nil, "1", "Rio Paraguay", "KM", "1240", nil, nil, "Paraguay", "N", "N", nil, "CORR", "Inserción de Carga", nil, "23112", "58416", "2", "196157", nil, nil, nil], ["1", "03/04/2012", "22:14:36", "CORR", "0", "ZPPA", "8950811", "CAVALIER III", nil, nil, nil, nil, "1", "Rio Paraguay", "KM", "1240", nil,
+nil, "Paraguay", "N", "N", nil, "CORR", "Inserción de Carga", nil, "23112", "58416", "2", "196160", nil, nil, nil]]
+        @valores = @dummy_class.obtenerListadoEnArray @xml
         @valores.should == @attr
       end
 

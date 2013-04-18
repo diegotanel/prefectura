@@ -6,23 +6,25 @@ module WsHelper
 
   def obtenerDatosdelWS(reportName, fecha, url)
     client = Savon::Client.new(url)
+    client.http.read_timeout = 1000
+    client.http.open_timeout = 1000
     response = client.request :get_report do |soap|
       soap.body = {"report_name" => reportName, "report_params" => {"ReportParam" => {"nombre" => "fecha", "valor" => fecha, :attributes! => { "ins0:valor" => { "xsi:type" => "xsd:string"} } } } }
     end
     response.to_xml
   end
 
-  def obtenerListado(xml)
+  def obtenerListadoEnArray(xml)
     @xml = retornarHash(xml)
     @registros = @xml[:Envelope][:Body][:GetReportResponse][:GetReportResult][:diffgram][:NewDataSet][:Table]
-    @encabezados = ["FH_INFO", "HS_INFO", "PT_INFO", "MATRICULA", "SDIST", "NRO_OMI", "IDEN", "PT_ORIG", "PT_DESTINO", "TIPO_MOV", "PT_FINAL", "EN_VIAJE", "NOMBRE", "UNIDAD", "KM", "CARGA", "OBSERVAC", "BAND", "ARQUEO_NETO", "CALADO_MAX", "CALADOR", "SERN", "TIPO_EVENTO", "COMENTARIO", "ID_VIAJE", "ID_ETAPA", "NRO_ETAPA", "ID_EVENTO", "REMOLCADA_POR", "ORIGEN", "DESTINO"]
+    @encabezados = ["msdata:rowOrder", "FH_INFO", "HS_INFO", "PT_INFO", "MATRICULA", "SDIST", "NRO_OMI", "IDEN", "PT_ORIG", "PT_DESTINO", "TIPO_MOV", "PT_FINAL", "EN_VIAJE", "NOMBRE", "UNIDAD", "KM", "CARGA", "OBSERVAC", "BAND", "ARQUEO_NETO", "CALADO_MAX", "CALADOR", "SERN", "TIPO_EVENTO", "COMENTARIO", "ID_VIAJE", "ID_ETAPA", "NRO_ETAPA", "ID_EVENTO", "REMOLCADA_POR", "ORIGEN", "DESTINO"]
     @resultado = []
-    @hash = {}
     @registros.each do |registro| 
+      @valores = []
       @encabezados.each do |encabezado| 
-        @hash[encabezado] = registro[encabezado]
+        @valores << registro[encabezado]
       end
-      @resultado << @hash
+      @resultado << @valores
     end
     return @resultado
   end

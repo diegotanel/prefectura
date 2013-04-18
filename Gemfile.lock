@@ -43,6 +43,11 @@ GEM
       execjs
     coffee-script-source (1.3.3)
     database_cleaner (0.7.2)
+    dbd-odbc (0.2.5)
+      dbi (>= 0.4.0)
+    dbi (0.4.5)
+      deprecated (= 2.0.1)
+    deprecated (2.0.1)
     diff-lcs (1.1.3)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -95,6 +100,7 @@ GEM
       activesupport (= 3.1.1)
       bundler (~> 1.0)
       railties (= 3.1.1)
+    rails-dbi (0.1.2)
     railties (3.1.1)
       actionpack (= 3.1.1)
       activesupport (= 3.1.1)
@@ -120,6 +126,7 @@ GEM
       activesupport (~> 3.0)
       railties (~> 3.0)
       rspec (~> 2.7.0)
+    ruby-odbc (0.99994)
     sass (3.1.19)
     sass-rails (3.1.6)
       actionpack (~> 3.1.0)
@@ -174,6 +181,7 @@ DEPENDENCIES
   chronic
   coffee-rails (~> 3.1.1)
   database_cleaner
+  dbd-odbc
   factory_girl_rails (= 1.0)
   faker
   gravatar_image_tag
@@ -181,8 +189,10 @@ DEPENDENCIES
   mocha
   pg
   rails (= 3.1.1)
+  rails-dbi
   rspec
   rspec-rails
+  ruby-odbc
   sass-rails (~> 3.1.4)
   savon
   spork (> 0.9.0.rc)

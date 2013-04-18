@@ -40,6 +40,11 @@ end
 gem 'jquery-rails'
 gem 'savon'
 gem 'will_paginate'
+#gem 'deprecated' 
+#gem 'dbi', '0.4.5'
+gem 'dbd-odbc'
+gem 'ruby-odbc'
+gem 'rails-dbi', :require => 'dbi'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

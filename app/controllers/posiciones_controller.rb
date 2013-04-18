@@ -1,7 +1,10 @@
+#encoding: utf-8
+
 class PosicionesController < ApplicationController
 
   def new
     @OrigenesDeReporte = OrigenDeReporte.all
+    @title = 'Home'
   end
 
   def create
@@ -17,18 +20,22 @@ class PosicionesController < ApplicationController
       @url = Urlws.first.url
       @respuestaWS = obtenerDatosdelWS(@cod, @fecFormateada, @url)
       unless @respuestaWS.blank?
-        @listado = obtenerListado(@respuestaWS)
-        @listadoJSON = ActiveSupport::JSON.encode(@listado)
-        File.open(File.join("spec/helpers", 'file.txt'), 'w') do |f|
-          f.write @listadoJSON 
+        @listado = obtenerListadoEnArray(@respuestaWS)
+        require 'dbi'
+        require 'odbc_utf8'
+        @dbh = DBI.connect('DBI:ODBC:rubydbf','','') #  Connect to a database, old style
+        registro=Basedbf.new
+        @listado.each do |valor| 
+          mensaje=registro.insertar("pnanove", valor, @dbh)
         end
+        flash[:success] = "Se obtenido la información exitosamente"
+        redirect_to root_path
       end
-      redirect_to root_path
     else
       @OrigenesDeReporte = OrigenDeReporte.all
+      flash.now[:error] = 'Ha ocurrido un error al obtener los datos'
       render 'new'
     end
-
   end
 
 end
