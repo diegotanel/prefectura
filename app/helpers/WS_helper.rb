@@ -6,8 +6,8 @@ module WsHelper
 
   def obtenerDatosdelWS(reportName, fecha, url)
     client = Savon::Client.new(url)
-    client.http.read_timeout = 1000
-    client.http.open_timeout = 1000
+    client.http.read_timeout = 500
+    client.http.open_timeout = 500
     response = client.request :get_report do |soap|
       soap.body = {"report_name" => reportName, "report_params" => {"ReportParam" => {"nombre" => "fecha", "valor" => fecha, :attributes! => { "ins0:valor" => { "xsi:type" => "xsd:string"} } } } }
     end
