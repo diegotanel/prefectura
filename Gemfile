@@ -8,6 +8,7 @@ gem 'rails', '3.1.1'
 gem 'sqlite3'
 gem 'gravatar_image_tag'
 gem 'chronic'
+gem 'httparty'
 
 group :production do
   # gems specifically for Heroku go here

@@ -117,6 +117,7 @@ describe PosicionesController do
       before(:each) do
         @datosCorrectos = @attr.merge("codigo" => "ros", "fecha(1i)" => "2012", "fecha(2i)" => "6", "fecha(3i)" => "11")
         controller.stub!(:obtenerDatosdelWS).and_return("")
+        @path_urlWS = Factory(:urlws)
       end
 
       it "debe obtener el parámetro código" do
@@ -147,7 +148,7 @@ describe PosicionesController do
       end
 
       it "debe obtener la dirección del WS" do
-        @path_urlWS = Factory(:urlws)
+        # @path_urlWS = Factory(:urlws)
         post :create, :reporte => @datosCorrectos
         assigns(:url).should == @path_urlWS.url
       end
